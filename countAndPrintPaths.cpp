@@ -62,7 +62,7 @@ int32_t main()
 	int n;
 	cin>>n;
 	vector<vector<int>>a(n,vector<int>(n,0));	
-	a[1][1]=1;
+	a[1][1]=1; // blocked cell
 	cout<<"Number of possible Paths: "<<countPathsInAMatrix(a)<<"\n";
 
 	cout<<"The Paths are: \n";
