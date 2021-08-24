@@ -42,7 +42,10 @@ mt19937                 rng(chrono::steady_clock::now().time_since_epoch().count
 // printPaths(arr,vis,i-1,j,str+'U') // move up
 // vis[i][j]=0; // to stop getting trapped in an infinite loop, backtracking process
 
-
+// the lines from 39 and the following can also be written as:
+// str+='R';
+// printPaths(arr,vis,i,j+1,str);
+// str.pop_back();
 
 int di[]={0,1,0,-1,1,-1,-1,1};
 int dj[]={1,0,-1,0,-1,-1,1,1};
