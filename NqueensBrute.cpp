@@ -21,24 +21,38 @@ using namespace std;
 #define w(x)            int x; cin>>x; while(x--)
 #define trace(x)        cerr<<#x<<": "<<x<<" "<<endl;
 #define FIO             ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0)
-mt19937                 rng(chrono::steady_clock::now().time_since_epoch().count());     
+mt19937                 rng(chrono::steady_clock::now().time_since_epoch().count()); 
+
+// We need to fill each row and each column with exactly one queen and in a way that no two queens attack each other
+// Approach would be to place every queen columnwise by making sure of certain conditions.
 
 bool isSafe(int row,int col,int n,vector<string>&board)
 {
     int dupRow = row;
     int dupCol = col;
 
+    // since we are placing every queen columnwise, so checking in the right directions, upper, lower directions doesn't make any sense
+    // because the columns right to the current column would be only be filled once the current column is filled.
+    // Instead we only need to check the current row, the left upper diagonal and the left lower diagonal
+
+
+    // check for left upper diagonal
     while(row>=0 and col>=0)
     {
-        if(board[row][col]=='Q')
+        // if at any instance we find there's a Queen in the diagonal we return false, i.e the current column isn't safe
+        if(board[row][col]=='Q') 
             return false;
-        row--;
+
+        // left upper diagonal means moving backward both in terms of row and column
+        row--; 
         col--;
     }
 
-    row = dupRow;
+    // restoring the previous values of row and col, since during the check the row and column values would be exhausted
+    row = dupRow; 
     col = dupCol;
 
+    // check for the current row
     while(col>=0)
     {
         if(board[row][col]=='Q')
@@ -48,6 +62,8 @@ bool isSafe(int row,int col,int n,vector<string>&board)
 
     row = dupRow;
     col = dupCol;
+
+    // check for the left lower diagonal
     while(row<n and col>=0)
     {
         if(board[row][col]=='Q')
@@ -67,11 +83,11 @@ void findPos(vector<vector<string>>&ans,vector<string>&board,int n,int col=0)
     }
     for(int row = 0;row<n;row++)
     {
-        if(isSafe(row,col,n,board))
+        if(isSafe(row,col,n,board)) // if the column is a safe one we place a queen
         {
-            board[row][col]='Q';
-            findPos(ans,board,n,col+1);
-            board[row][col]='.';
+            board[row][col]='Q'; // Mark the empty position to mean the queen is placed
+            findPos(ans,board,n,col+1); // move to next column if the current one is filled
+            board[row][col]='.'; // backtracking step
         }
     }
 }
